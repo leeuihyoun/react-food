@@ -1,4 +1,6 @@
+
 import { createContext, useState } from "react";
+
 
 export const GlobalContext = createContext(null);
 
@@ -31,8 +33,26 @@ export default function GlobalState({children}){
 		}
 		
 	}
+	//즐겨찾기 등록 리스트 state의 배열을 수정(추가/삭제)
+	// state의 배열은 직접 수정x==?> ...으로 분리하고 []로 감싸서 카피본으로 수정
+	// 변수를 안쓰고 useState를 사용하는 이유가 데이턱값이 바뀌면 화면도 같이 갱신해주려고
+	function hAddToFavorite(getCurItem)
+	{
+		let copyFavoritesList = [...favoritesList];// 배열 통째로 분해했다가 다시 배열로 만들어서 대입
+		//동일한 ID가 있는지 검사 (getCurItem의 ID와 favoritesList의 ID들을 비교)
+		const index= copyFavoritesList.findIndex(e=> e.id === getCurItem.id);
+		
+		if(index === -1){
+			copyFavoritesList.push(getCurItem);
+		}else{
+			copyFavoritesList.splice(index);
+		}
+		// 새로 만든 배열을 state에 엎어친다
+		setFavoritesList(copyFavoritesList);
+		
+	}
 	return(
-		<GlobalContext.Provider value={{searchParam,setSearchParam,hSubmit,foodList,setFoodList,foodDetailData,setFoodDetailData,favoritesList,setFavoritesList}}>
+		<GlobalContext.Provider value={{searchParam,setSearchParam,hSubmit,foodList,setFoodList,foodDetailData,setFoodDetailData,favoritesList,setFavoritesList,hAddToFavorite}}>
 			{children}
 		</GlobalContext.Provider>
 	)
