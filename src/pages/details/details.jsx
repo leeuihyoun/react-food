@@ -65,7 +65,7 @@ export default function Details(){
 								//map을 통해서 들어있는 만큼만 반복하며 li태그 생성
 								foodDetailData?.recipe.ingredients.map((ingredient,idx)=>{
 									return(
-										<li key={idx} style={recipe-container}>
+										<li key={idx} >
 											<span>
 												{ingredient.quantity} {ingredient.unit}
 											</span>
